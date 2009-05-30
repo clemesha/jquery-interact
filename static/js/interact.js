@@ -5,8 +5,11 @@ Function.prototype.method = function(name, func) {
 
 Function.method('before', function(beforeFunc) {
     var that = this;
+    o = arguments;
     console.log(" == before == ", this, arguments);
     return function() {
+        /*var result = 
+        console.log(" == result == ", result);*/
         beforeFunc.apply(null, arguments);
         return that.apply(null, arguments);
     };
@@ -28,6 +31,7 @@ Function.method('after', function(afterFunc) {
             language: "javascript" 
         };
         var inid = target.attr("id") + "_interact_input";
+        var evalid = target.attr("id") + "_interact_eval";
         var outid = target.attr("id") + "_interact_output";
         var plot = this;
         /* public functions */
@@ -46,15 +50,40 @@ Function.method('after', function(afterFunc) {
             bindEvents();
         };
     
-        function createInput(target){
-            target.append($("<textarea rows='10' cols='50'>").attr("id", inid));; //XXX temp
+        function createInput(target){ //XXX temporary - will generalize
+            target.append($("<textarea rows='4' cols='50'>").attr("id", inid));
+            target.append($("<p>&nbsp;</p>"));
+            target.append($("<textarea rows='1' cols='50'>").attr("id", evalid));
             target.append($("<div>").attr("id", outid));
         };
 
         function bindEvents(){
-            var inid = target.attr("id") + "_interact_input";
-            console.log(inid);
             $("#"+inid).dblclick(inspect);
+            $("#"+evalid).dblclick(do_interact);
+        };
+
+        function do_interact(evt){
+            console.log("do_interact", evt);
+            /*  
+                #1 inspect of definition args 
+                #2 inspect callee args 
+                #3 cache vals from #1,#2
+                #4 create _input_boxs and _sliders_ based on #1 and set vals with #2
+                #5 set event handlers on #4
+                #6 handle events be re-evaluting cache input function with new args+ranges
+            */
+        };
+
+        function getargspec(func){
+            /* Inspect arguments of the function func */
+            var reg = /\(([\s\S]*?)\)/;
+            var params = reg.exec(func);
+            if (params) {
+                var param_names = params[1].split(',');
+            } else {
+                return [];
+            }
+            return param_names;
         };
 
         function inspect(evt){
@@ -69,6 +98,7 @@ Function.method('after', function(afterFunc) {
             var f = $(evt.target).val();
             try {
                 eval("newf = "+f);
+                console.log("getargspec ", getargspec(newf));
                 console.log("inspect ", f, newf);
             } catch(exception){
                 console.warn("eval failed.  exception: ", exception);
