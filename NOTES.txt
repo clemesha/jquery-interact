@@ -1,0 +1,21 @@
+
+Design
+======
+
+Notes on Sage @interact
+-----------------------
+@interact
+def f(a=(0,2)):
+    show(plot(sin(x*(1+a*x)), (x,0,6)))
+    
+#f, as defined, is not valid python code:
+f()
+
+
+Notes on Mathematica's Manipulate:
+----------------------------------
+Manipulate[Plot[Sin[x*(1 + a*x)], {x, 0, 6}], {a, 0, 2}]
+
+
+
+
