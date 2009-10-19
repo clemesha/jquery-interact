@@ -30,15 +30,18 @@
 
         $("#slider").slider({"min":MIN, "max":MAX});
         $("#slider").bind('slidechange', function(evt, ui) {
-            console.log(evt, ui.value);
+            //console.log(evt, ui.value);
             var max = ui.value;
             plotrange(bar, MIN, max, STEP);
         });
+
+        
+        interact = $("#demo").interact({language:"javascript"});
     });
     </script>
   </head>
   <body>
-    <pre id="elem">
+    <pre id="demo">
     function bar(a, x) {
       return Math.sin(x*(1 + a*x));
     }

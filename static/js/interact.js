@@ -1,5 +1,9 @@
 /*
 
+======================
+Interact jQuery plugin
+======================
+
 Interact
 ========
 Create well defined API points to plug/mix-and-match:
@@ -26,7 +30,7 @@ interact(plot(bar, {"x":[0, 6]}), "a":[0, 2]})
 </pre>
 
 --------- Javascript -----------
-$("#elem").interact({language:javascript"});
+$("#elem").interact({language:"javascript"});
 
 
 Steps need to create interact
@@ -56,7 +60,7 @@ Function.prototype.method = function(name, func) {
 Function.method('before', function(beforeFunc) {
     var that = this;
     o = arguments;
-    console.log(" == before == ", this, arguments);
+    //console.log(" == before == ", this, arguments);
     return function() {
         /*var result = 
         console.log(" == result == ", result);*/
@@ -74,10 +78,6 @@ Function.method('after', function(afterFunc) {
     };
 });
 
-
-/*
-
-*/
 
 (function($) {
 
@@ -97,11 +97,24 @@ Function.method('after', function(afterFunc) {
 
         function init(target, opts){
             $.extend(options, opts); //update default options with user options.
-            createInput(target); //IO elements, XXX make more general
+            //
+            //createInput(target); //IO elements, XXX make more general
             bindEvents();
+        };
+
+        function make_input_widgets(args) {
+            /* Create input widgets from all the args 
+            passed the the 'interact' function.
+
+            Example:
+                ``interact(plot(...), "a":[0, 2]})``
+                Would create a slider from 0 to 2.
+            */
         };
     
         function createInput(target){ //XXX temporary - will generalize
+            console.log(targets);
+            make_input_widget();
             target.append($("<textarea rows='4' cols='50'>").attr("id", inid));
             target.append($("<p>&nbsp;</p>"));
             target.append($("<textarea rows='1' cols='50'>").attr("id", evalid));
@@ -113,9 +126,9 @@ Function.method('after', function(afterFunc) {
             $("#"+evalid).dblclick(do_interact);
         };
 
-        function plot(func, args) {
-            console.log("plot args: ", arguments);
-            console.log(typeof(func), typeof(args));
+        function _plot(func, args) {
+            /* console.log("plot args: ", arguments);
+            console.log(typeof(func), typeof(args));*/
             return function(){}
         };
 
@@ -130,14 +143,14 @@ Function.method('after', function(afterFunc) {
         };
 
         function _interact() {
-            console.log("interact args: ", arguments);
+            //console.log("interact args: ", arguments);
         };
 
         function do_interact(evt){
             var f = $(evt.target).val();
-            console.log("do_interact", evt);
+            /*console.log("do_interact", evt);
             console.log("newf", newf);
-            console.log("getargspec ", getargspec(newf));
+            console.log("getargspec ", getargspec(newf));*/
         };
 
         function getargspec(func){
@@ -157,7 +170,8 @@ Function.method('after', function(afterFunc) {
             try {
                 eval("newf = "+f); //XXX eval and inspect namespace to get name
             } catch(exception){
-                console.warn("eval failed.  exception: ", exception);
+                //console.warn("eval failed.  exception: ", exception);
+                var e=exception;
             }
         };
 

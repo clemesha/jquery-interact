@@ -1,4 +1,3 @@
-
 Design
 ======
 
@@ -16,6 +15,17 @@ Notes on Mathematica's Manipulate:
 ----------------------------------
 Manipulate[Plot[Sin[x*(1 + a*x)], {x, 0, 6}], {a, 0, 2}]
 
+
+Javascript (aka option {language:"javascript"})
+-----------------------------------------------
+    - Local Javascript inspects functions
+    - Flot usage, etc.
+
+
+Python Back-end
+----------------
+    - Remote python server inspects functions: response allows creation of widgets.
+        - 1st operation: inspect function, return data for widgets+sliders and execution function for initial value.
 
 
 
